@@ -3,6 +3,7 @@ import React, { useEffect } from 'react'
 import { auth, getData, signOutUser } from '../Config/firebase/FirebaseMethod'
 import { useNavigate } from 'react-router-dom'
 import Navbar from '../Components/Navbar'
+import { Button } from '@mui/material'
 
 const Dashbord = () => {
   let navigate = useNavigate()
@@ -11,7 +12,7 @@ const Dashbord = () => {
     onAuthStateChanged(auth, async (user) => {
       if (user) {
         console.log('user login ha')
-      }else {
+      } else {
         console.log('user logout ho giya ha');
         navigate('/login')
       }
@@ -20,9 +21,12 @@ const Dashbord = () => {
 
   return (
     <div>
-      <Navbar profile="profile" dashbord="Dashbord"/>
+      <Navbar profile="profile" dashbord="Dashbord" />
       dashBord
-      <button onClick={signOutUser}>logout</button>
+      <div className='mt-4'>
+        <Button variant='contained' onClick={signOutUser}>logout</Button>
+
+      </div>
     </div>
   )
 }

@@ -22,9 +22,10 @@ const Register = () => {
       fullname: fullName.current.value,
       email: email.current.value,
       password: password.current.value,
+      userProfile: userProfileUrl
     })
     console.log('user register successfully', registerUserData);
-    navigate('/')
+    navigate('/login')
   }
   return (
     <div>
