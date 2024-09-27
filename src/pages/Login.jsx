@@ -25,7 +25,7 @@ const Login = () => {
         <>
             <Navbar register="Register"/>
             <section className="container mx-auto p-4">
-                <div className="login-section mt-24 max-w-md mx-auto bg-white shadow-lg p-6 rounded-lg">
+                <div className="login-section mt-[200px] lg:mt-[100px] first:md:mt-[100px] max-w-md mx-auto bg-white shadow-lg p-6 rounded-lg">
                     <form onSubmit={loginUserFunc} className="flex flex-col gap-4">
                         <label htmlFor="email" className="text-lg font-medium">
                             Email

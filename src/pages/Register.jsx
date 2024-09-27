@@ -31,7 +31,7 @@ const Register = () => {
     <div>
         <Navbar login="Login"/>
       <section className="container mx-auto p-4">
-        <div className="login-section max-w-md mx-auto mt-14 bg-white shadow-lg p-6 rounded-lg">
+        <div className="login-section max-w-md mx-auto mt-[180px] lg:mt-[100px] first:md:mt-[70px] bg-white shadow-lg p-6 rounded-lg">
           <form onSubmit={registerUser} className="flex flex-col gap-4">
             <input
               ref={fullName}
