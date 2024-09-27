@@ -10,7 +10,6 @@ const Home = () => {
         console.log('user login ha')
       } else {
         console.log('user logout ho giya ha');
-        setcheckuser(true)
       }
     })
   }, [])
