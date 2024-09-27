@@ -8,7 +8,7 @@ const Home = () => {
     onAuthStateChanged(auth, async (user) => {
       if (user) {
         console.log('user login ha')
-      }else {
+      } else {
         console.log('user logout ho giya ha');
         setcheckuser(true)
       }
@@ -17,10 +17,14 @@ const Home = () => {
 
 
   return (
-    <div>
-      <Navbar login="login" userName='haseeb ur rehman'/>
-      Good Morning Readers
-    </div>
+    <>
+      <Navbar login="login" userName='haseeb ur rehman' />
+      <section className='container mx-auto p-1'>
+        <div>
+          Good Morning Readers
+        </div>
+      </section>
+    </>
   )
 }
 
