@@ -7,6 +7,7 @@ import Register from './pages/Register.jsx'
 import Home from './pages/Home.jsx'
 import Dashbord from './pages/Dashbord.jsx'
 import ProtectedRout from './components/ProtectedRout.jsx'
+import Profile from './pages/Profile.jsx'
 
 const router = createBrowserRouter([
   {
@@ -14,7 +15,7 @@ const router = createBrowserRouter([
     element: <Layout />,
     children : [
       {
-        path : '',
+        path : '/',
         element: <Home />
       },
       {
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
       {
         path : 'dashbord',
         element :<ProtectedRout component={<Dashbord/>}/>
+      },
+      {
+        path : 'profile',
+        element :<ProtectedRout component={<Profile/>}/>
       }
     ]
   }

@@ -1,15 +1,15 @@
 import { onAuthStateChanged } from 'firebase/auth'
 import React, { useEffect, useRef, useState } from 'react'
-import { auth, getData, sendData, signOutUser } from '../Config/firebase/FirebaseMethod'
+import { auth, getData, sendData } from '../Config/firebase/FirebaseMethod'
 import { useNavigate } from 'react-router-dom'
-import Navbar from '../Components/Navbar'
+import Navbar from '../components/Navbar'
 import { Button, Typography } from '@mui/material'
-import BasicModal from '../components/Modal'
 import BlogsPost from '../components/BlogsPost'
 
 const Dashbord = () => {
   // check user status user loggedin or not
   let navigate = useNavigate()
+  const [userUid, setuserUid] = useState(null)
 
   // here is input state...
   let titleRef = useRef()
@@ -20,11 +20,20 @@ const Dashbord = () => {
     onAuthStateChanged(auth, async (user) => {
       if (user) {
         console.log(user.uid)
+        setuserUid(user.uid)
         const blogsData = await getData("blogs", user.uid)
         console.log(blogsData)
         setBlogs([...blogsData])
       }
     })
+  }, [])
+
+  useEffect(() => {
+    async function getUserFromDataBase() {
+        let getUserData = await getData("users", userUid)
+        console.log(getUserData);
+    }
+    getUserFromDataBase()
   }, [])
 
   // send data firestore
@@ -53,11 +62,13 @@ const Dashbord = () => {
     }
   }
 
+
+
   return (
     <div>
       <Navbar profile="profile" dashbord="Dashbord" />
       <div className='p-3 container mx-auto'>
-        <Typography variant='h2' fontWeight='bold' className='p-2'>Write Blog</Typography>
+        <Typography variant='h3' fontWeight='bold' className='p-2'>Write Blog</Typography>
         <hr />
         <div className='mt-10'>
           <form className='flex flex-col gap-2'>
@@ -72,7 +83,6 @@ const Dashbord = () => {
             Your Article Here.
           </Typography>
           <div className='mt-4 flex flex-col gap-3'>
-            {/* <Button variant='contained' onClick={signOutUser}>logout</Button> */}
             {blogs.length > 0 ? blogs.map((item, index) => (
               <BlogsPost key={index} blogs={item} />
             )) : <h1>No Blogs Found...</h1>}
