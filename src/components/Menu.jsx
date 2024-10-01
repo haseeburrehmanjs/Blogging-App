@@ -13,6 +13,9 @@ import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import { signOutUser } from '../Config/firebase/FirebaseMethod';
 import { Link, useNavigate } from 'react-router-dom';
+import { auth, db } from '../Config/firebase/FirebaseMethod'
+import { collection, query, where, getDocs } from "firebase/firestore";
+import { onAuthStateChanged } from 'firebase/auth';
 
 export default function AccountMenu() {
     let navigate = useNavigate()
@@ -30,6 +33,28 @@ export default function AccountMenu() {
     React.useEffect(() => {
 
     }, [])
+
+    const [SingalUserData, setSingalUserData] = React.useState([])
+
+    React.useEffect(() => {
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                try {
+                    const q = query(collection(db, "users"), where("id", "==", user.uid));
+                    const querySnapshot = await getDocs(q);
+                    querySnapshot.forEach((doc) => {
+                        console.log(doc.data());
+                        setSingalUserData(doc.data())
+                    });
+                } catch (error) {
+                    console.log(error);
+                }
+            } else {
+                console.log('user logout ho giya ha');
+            }
+        })
+    }, [])
+
 
     // logout user
     function userLogout() {
@@ -50,11 +75,13 @@ export default function AccountMenu() {
     function dashbordPage() {
         navigate('/dashbord')
     }
+    function allBlogsPage() {
+        navigate('/')
+    }
 
     return (
         <React.Fragment>
             <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
-            <Typography sx={{ minWidth: 100 }}><Link to='/'>All Blogs</Link></Typography>
                 <Tooltip title="Account settings">
                     <IconButton
                         onClick={handleClick}
@@ -66,7 +93,7 @@ export default function AccountMenu() {
                     >
                         <Avatar sx={{ width: 32, height: 32 }}><img
                             alt="hero"
-                            src="https://i.pinimg.com/564x/ac/f9/26/acf926941ce5d133eb017641b2019ffe.jpg"
+                            src={SingalUserData.userProfile}
                         /></Avatar>
                     </IconButton>
                 </Tooltip>
@@ -110,6 +137,9 @@ export default function AccountMenu() {
             >
                 <MenuItem onClick={profilePage}>
                     <Avatar /> Profile
+                </MenuItem>
+                <MenuItem onClick={allBlogsPage}>
+                    <Avatar /> All Blogs
                 </MenuItem>
                 <MenuItem onClick={dashbordPage}>
                     <ListItemIcon>

@@ -1,39 +1,38 @@
 import { onAuthStateChanged } from 'firebase/auth'
 import React, { useEffect, useRef, useState } from 'react'
-import { auth, getData, sendData } from '../Config/firebase/FirebaseMethod'
+import { auth, db, getData, sendData } from '../Config/firebase/FirebaseMethod'
 import { useNavigate } from 'react-router-dom'
 import Navbar from '../components/Navbar'
 import { Button, Typography } from '@mui/material'
 import BlogsPost from '../components/BlogsPost'
+import { collection, query, where, getDocs } from "firebase/firestore";
 
 const Dashbord = () => {
   // check user status user loggedin or not
   let navigate = useNavigate()
-  const [userUid, setuserUid] = useState(null)
 
   // here is input state...
   let titleRef = useRef()
   let articleRef = useRef()
 
   const [blogs, setBlogs] = useState([])
+  const [SingalUserData, setSingalUserData] = useState([])
+
   useEffect(() => {
     onAuthStateChanged(auth, async (user) => {
       if (user) {
         console.log(user.uid)
-        setuserUid(user.uid)
+        const q = query(collection(db, "users"), where("id", "==", user.uid));
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+          console.log(doc.data());
+          setSingalUserData(doc.data())
+        });
         const blogsData = await getData("blogs", user.uid)
         console.log(blogsData)
         setBlogs([...blogsData])
       }
     })
-  }, [])
-
-  useEffect(() => {
-    async function getUserFromDataBase() {
-        let getUserData = await getData("users", userUid)
-        console.log(getUserData);
-    }
-    getUserFromDataBase()
   }, [])
 
   // send data firestore
@@ -82,9 +81,9 @@ const Dashbord = () => {
           <Typography variant='h4' className='mt-4'>
             Your Article Here.
           </Typography>
-          <div className='mt-4 flex flex-col gap-3'>
+          <div className='mt-4 flex flex-col flex-wrap gap-3'>
             {blogs.length > 0 ? blogs.map((item, index) => (
-              <BlogsPost key={index} blogs={item} />
+              <BlogsPost user={SingalUserData} key={index} blogs={item} />
             )) : <h1>No Blogs Found...</h1>}
           </div>
         </div>

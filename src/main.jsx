@@ -13,33 +13,33 @@ const router = createBrowserRouter([
   {
     path: '',
     element: <Layout />,
-    children : [
+    children: [
       {
-        path : '/',
+        path: '/',
         element: <Home />
       },
       {
         path: 'login',
-        element: <Login/>
+        element: <Login />
       },
       {
         path: 'register',
-        element: <Register/>
+        element: <Register />
       },
       {
-        path : 'dashbord',
-        element :<ProtectedRout component={<Dashbord/>}/>
+        path: 'dashbord',
+        element: <ProtectedRout component={<Dashbord />} />
       },
       {
-        path : 'profile',
-        element :<ProtectedRout component={<Profile/>}/>
+        path: 'profile',
+        element: <ProtectedRout component={<Profile />} />
       }
     ]
   }
 ])
 
 createRoot(document.getElementById('root')).render(
-  <RouterProvider router={router}>
-    <Layout />
-  </RouterProvider>
+    <RouterProvider router={router}>
+      <Layout />
+    </RouterProvider>
 )

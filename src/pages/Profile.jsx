@@ -1,8 +1,32 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Navbar from '../components/Navbar'
 import { Typography } from '@mui/material'
+import { onAuthStateChanged } from 'firebase/auth'
+import { auth, db } from '../Config/firebase/FirebaseMethod'
+import { collection, query, where, getDocs } from "firebase/firestore";
 
 const Profile = () => {
+    const [SingalUserData, setSingalUserData] = useState([])
+
+    useEffect(() => {
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                try {
+                    const q = query(collection(db, "users"), where("id", "==", user.uid));
+                    const querySnapshot = await getDocs(q);
+                    querySnapshot.forEach((doc) => {
+                        console.log(doc.data());
+                        setSingalUserData(doc.data())
+                    });
+                } catch (error) {
+                    console.log(error);
+                }
+            } else {
+                console.log('user logout ho giya ha');
+            }
+        })
+    }, [])
+
     return (
         <>
             <Navbar />
@@ -16,11 +40,11 @@ const Profile = () => {
                     <img
                         className="lg:w-2/6 md:w-3/6 w-5/6 mb-10 object-cover object-center rounded"
                         alt="hero"
-                        src="https://i.pinimg.com/564x/ac/f9/26/acf926941ce5d133eb017641b2019ffe.jpg"
+                        src={SingalUserData.userProfile}
                     />
                     <div className="text-center lg:w-2/3 w-full" bis_skin_checked={1}>
                         <h1 className="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">
-                            Microdosing synth tattooed vexillologist
+                            {SingalUserData.fullname}
                         </h1>
                         <p className="mb-8 leading-relaxed">
                             Meggings kinfolk echo park stumptown DIY, kale chips beard jianbing

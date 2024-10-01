@@ -1,19 +1,20 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { loginUser } from '../Config/firebase/FirebaseMethod'
 import Navbar from '../Components/Navbar'
 
 const Login = () => {
-    let email = useRef()
-    let password = useRef()
-    let navigate = useNavigate()
+    const email = useRef()
+    const password = useRef()
+    const navigate = useNavigate()
 
-    let loginUserFunc = async (event) => {
+
+    const loginUserFunc = async (event) => {
         event.preventDefault()
         console.log(email.current.value);
         console.log(password.current.value);
 
-        let loginUserFromDatabase = await loginUser({
+        const loginUserFromDatabase = await loginUser({
             email: email.current.value,
             password: password.current.value
         })

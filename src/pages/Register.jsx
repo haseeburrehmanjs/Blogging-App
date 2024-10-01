@@ -1,24 +1,27 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import { signUpUser, uploadImage } from '../Config/firebase/FirebaseMethod'
 import { Link, useNavigate } from 'react-router-dom'
-import Navbar from '../Components/Navbar'
+import Navbar from '../components/Navbar'
 
 const Register = () => {
-  let fullName = useRef()
-  let email = useRef()
-  let password = useRef()
-  let myFile = useRef()
+  const fullName = useRef()
+  const email = useRef()
+  const password = useRef()
+  const myFile = useRef()
+
+  const [loading, setloading] = useState(false)
 
   // for navigation
-  let navigate = useNavigate()
+  const navigate = useNavigate()
 
-  let registerUser = async (event) => {
+  const registerUser = async (event) => {
     event.preventDefault()
+    setloading(true)
 
-    let userProfileUrl = await uploadImage(myFile.current.files[0], email.current.value)
+    const userProfileUrl = await uploadImage(myFile.current.files[0], email.current.value)
     console.log(userProfileUrl);
 
-    let registerUserData = await signUpUser({
+    const registerUserData = await signUpUser({
       fullname: fullName.current.value,
       email: email.current.value,
       password: password.current.value,
@@ -26,6 +29,7 @@ const Register = () => {
     })
     console.log('user register successfully', registerUserData);
     navigate('/login')
+    setloading(false)
   }
   return (
     <div>
@@ -66,7 +70,7 @@ const Register = () => {
                   id="registorBtn"
                   className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600"
                 >
-                  Register
+                {loading ? "loading..." : "Register"}
                 </button>
                 <br />
               </div>
