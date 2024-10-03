@@ -1,30 +1,60 @@
 import React, { useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { loginUser } from '../Config/firebase/FirebaseMethod'
-import Navbar from '../Components/Navbar'
+import Navbar from '../components/Navbar'
+import { CircularProgress } from '@mui/material'
+import Swal from 'sweetalert2'
 
 const Login = () => {
     const email = useRef()
     const password = useRef()
     const navigate = useNavigate()
 
+    const [loading, setloading] = useState(false)
 
     const loginUserFunc = async (event) => {
+        setloading(true)
         event.preventDefault()
         console.log(email.current.value);
         console.log(password.current.value);
 
-        const loginUserFromDatabase = await loginUser({
-            email: email.current.value,
-            password: password.current.value
-        })
-        console.log('user login ho giya', loginUserFromDatabase);
-        navigate('/dashbord')
+        try {
+            const loginUserFromDatabase = await loginUser({
+                email: email.current.value,
+                password: password.current.value
+            })
+            Swal.fire({
+                title: 'Success!',
+                text: 'Your are Login Successfully',
+                icon: 'success',
+                confirmButtonText: 'Login'
+            })
+                .then((result) => {
+                    if (result.isConfirmed) {
+                        navigate('/dashbord')
+                    }
+                });
+            console.log('user login ho giya', loginUserFromDatabase);
+            setloading(false)
+        } catch (error) {
+            Swal.fire({
+                title: error,
+                text: 'Please check email password!',
+                icon: 'error',
+                confirmButtonText: 'Try Again'
+            })
+                .then((result) => {
+                    if (result.isConfirmed) {
+                        // navigate('/dashbord')
+                    }
+                });
+            setloading(false)
+        }
     }
 
     return (
         <>
-            <Navbar register="Register"/>
+            <Navbar register="Register" />
             <section className="container mx-auto p-4">
                 <div className="login-section mt-[200px] lg:mt-[100px] first:md:mt-[100px] max-w-md mx-auto bg-white shadow-lg p-6 rounded-lg">
                     <form onSubmit={loginUserFunc} className="flex flex-col gap-4">
@@ -51,9 +81,10 @@ const Login = () => {
                         <div className="mt-4">
                             <div className="text-center">
                                 <button
-                                    className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600"
+                                    id="registorBtn"
+                                    className="bg-blue-500 text-white py-2 px-6 rounded-lg hover:bg-blue-600"
                                 >
-                                    Login
+                                    {loading ? <CircularProgress color='white' className='mt-1' size="20px" /> : "Login"}
                                 </button>
                                 <br />
                             </div>

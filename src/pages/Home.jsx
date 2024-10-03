@@ -9,16 +9,12 @@ const Home = () => {
   const [allBlogs, setallBlogs] = useState([])
 
   useEffect(() => {
-    onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        console.log('user login ha')
-        let getAllDataFromDb = await getAllData("blogs")
-        setallBlogs(getAllDataFromDb)
-        console.log(getAllDataFromDb);
-      } else {
-        console.log('user logout ho giya ha');
-      }
-    })
+    async function getAllBlogs() {
+      let getAllDataFromDb = await getAllData("blogs")
+      setallBlogs(getAllDataFromDb)
+    }
+    getAllBlogs()
+    console.log(allBlogs);
   }, [])
 
   const [like, setlike] = useState(null)
