@@ -87,19 +87,12 @@ const Profile = () => {
 
                         <div className='flex justify-center'>
                             <form onSubmit={updatePasswordFunc} className='flex flex-col gap-3'>
-                                {/* <input
-                                    type="text"
-                                    ref={currentPasswordVal}
-                                    placeholder="Enter Current Password"
-                                    required
-                                    className="border border-gray-300 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 w-[420px]"
-                                /> */}
                                 <input
                                     ref={updatePasswordVal}
                                     type="text"
                                     placeholder="Enter New Password"
                                     required
-                                    className="border border-gray-300 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 w-[420px]"
+                                    className="border border-gray-300 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 w-[350px]"
                                 />
                                 <Button type='submit' variant='contained' color='primary'>Update Password</Button>
                             </form>
