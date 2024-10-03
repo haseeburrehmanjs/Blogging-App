@@ -16,6 +16,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { auth, db } from '../Config/firebase/FirebaseMethod'
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { onAuthStateChanged } from 'firebase/auth';
+import Swal from 'sweetalert2';
 
 export default function AccountMenu() {
     let navigate = useNavigate()
@@ -58,6 +59,18 @@ export default function AccountMenu() {
 
     // logout user
     function userLogout() {
+        Swal.fire({
+            title: 'Success!',
+            text: 'Your are Logout Successfully',
+            icon: 'success',
+            confirmButtonText: 'Logout',
+            confirmButtonColor: '#234e94'
+        })
+            .then((result) => {
+                if (result.isConfirmed) {
+                    navigate('/dashbord')
+                }
+            });
         signOutUser()
         console.log('user logout ho giya ha');
         navigate('/login')

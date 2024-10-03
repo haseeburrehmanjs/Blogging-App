@@ -27,7 +27,8 @@ const Login = () => {
                 title: 'Success!',
                 text: 'Your are Login Successfully',
                 icon: 'success',
-                confirmButtonText: 'Login'
+                confirmButtonText: 'Login',
+                confirmButtonColor: '#234e94'
             })
                 .then((result) => {
                     if (result.isConfirmed) {
@@ -39,9 +40,10 @@ const Login = () => {
         } catch (error) {
             Swal.fire({
                 title: error,
-                text: 'Please check email password!',
+                text: 'Please check email & password!',
                 icon: 'error',
-                confirmButtonText: 'Try Again'
+                confirmButtonColor: '#de2323',
+                confirmButtonText: 'Try Again',
             })
                 .then((result) => {
                     if (result.isConfirmed) {

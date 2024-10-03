@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
 
 const BlogsPost = ({ blogs, user}) => {
-    const { title, article } = blogs
-    console.log(user);
+    const { title, article, currentDate } = blogs
+    console.log(blogs);
+    
+    // console.log(user);
     const { email, fullname, userProfile } = user
     return (
         <>
@@ -16,7 +18,7 @@ const BlogsPost = ({ blogs, user}) => {
                     <div>
                         <h2 className="text-xl font-semibold">{title}</h2>
 
-                        <p className="text-gray-500 text-sm">Posted by: {email}</p>
+                        <p className="text-gray-500 text-sm">Time: {currentDate}</p>
 
                     </div>
                 </div>

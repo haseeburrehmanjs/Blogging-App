@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Navbar from '../components/Navbar'
-import { Typography } from '@mui/material'
-import { onAuthStateChanged } from 'firebase/auth'
+import { Button, Typography } from '@mui/material'
+import { getAuth, onAuthStateChanged, updatePassword } from 'firebase/auth'
 import { auth, db } from '../Config/firebase/FirebaseMethod'
 import { collection, query, where, getDocs } from "firebase/firestore";
+import Swal from 'sweetalert2'
 
 const Profile = () => {
     const [SingalUserData, setSingalUserData] = useState([])
@@ -18,6 +19,8 @@ const Profile = () => {
                         console.log(doc.data());
                         setSingalUserData(doc.data())
                     });
+                    console.log(user);
+
                 } catch (error) {
                     console.log(error);
                 }
@@ -26,6 +29,41 @@ const Profile = () => {
             }
         })
     }, [])
+
+    const updatePasswordVal = useRef()
+    // const currentPasswordVal = useRef()
+
+    function updatePasswordFunc(event) {
+        event.preventDefault()
+        if (updatePasswordVal.current.value === '') {
+            alert('please enter password')
+        } else {
+            const auth = getAuth();
+            const user = auth.currentUser;
+            const newPassword = updatePasswordVal.current.value;
+
+            updatePassword(user, newPassword)
+                .then(() => {
+                    Swal.fire({
+                        title: 'Success!',
+                        text: 'Password Changed Successfully',
+                        icon: 'success',
+                        confirmButtonText: 'Changed',
+                        confirmButtonColor: '#234e94'
+                    })
+                        .then((result) => {
+                            if (result.isConfirmed) {
+                                // navigate('/dashbord')
+                            }
+                        });
+                }).catch((error) => {
+                    alert(error)
+                });
+
+        }
+        updatePasswordVal.current.value = ''
+        // currentPasswordVal.current.value = ''
+    }
 
     return (
         <>
@@ -37,29 +75,34 @@ const Profile = () => {
                     className="container mx-auto flex px-5 py-14 items-center justify-center flex-col"
                     bis_skin_checked={1}
                 >
+                    <h1 className="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">
+                        {SingalUserData.fullname}
+                    </h1>
                     <img
                         className="lg:w-2/6 md:w-3/6 w-5/6 mb-10 object-cover object-center rounded"
                         alt="hero"
                         src={SingalUserData.userProfile}
                     />
-                    <div className="text-center lg:w-2/3 w-full" bis_skin_checked={1}>
-                        <h1 className="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">
-                            {SingalUserData.fullname}
-                        </h1>
-                        <p className="mb-8 leading-relaxed">
-                            Meggings kinfolk echo park stumptown DIY, kale chips beard jianbing
-                            tousled. Chambray dreamcatcher trust fund, kitsch vice godard disrupt
-                            ramps hexagon mustache umami snackwave tilde chillwave ugh. Pour-over
-                            meditation PBR&amp;B pickled ennui celiac mlkshk freegan photo booth af
-                            fingerstache pitchfork.
-                        </p>
-                        <div className="flex justify-center" bis_skin_checked={1}>
-                            <button className="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">
-                                Button
-                            </button>
-                            <button className="ml-4 inline-flex text-gray-700 bg-gray-100 border-0 py-2 px-6 focus:outline-none hover:bg-gray-200 rounded text-lg">
-                                Button
-                            </button>
+                    <div className="text-center container lg:w-2/3 w-full" bis_skin_checked={1}>
+
+                        <div className='flex justify-center'>
+                            <form onSubmit={updatePasswordFunc} className='flex flex-col gap-3'>
+                                {/* <input
+                                    type="text"
+                                    ref={currentPasswordVal}
+                                    placeholder="Enter Current Password"
+                                    required
+                                    className="border border-gray-300 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 w-[420px]"
+                                /> */}
+                                <input
+                                    ref={updatePasswordVal}
+                                    type="text"
+                                    placeholder="Enter New Password"
+                                    required
+                                    className="border border-gray-300 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 w-[420px]"
+                                />
+                                <Button type='submit' variant='contained' color='primary'>Update Password</Button>
+                            </form>
                         </div>
                     </div>
                 </div>

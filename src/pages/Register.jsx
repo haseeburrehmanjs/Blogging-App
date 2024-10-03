@@ -35,6 +35,7 @@ const Register = () => {
         title: 'Success!',
         text: 'Your are Register Successfully',
         icon: 'success',
+        confirmButtonColor: '#234e94',
         confirmButtonText: 'Login'
       })
         .then((result) => {
@@ -49,8 +50,9 @@ const Register = () => {
       Swal.fire({
         title: error,
         text: 'Use Another Email',
-        icon: 'success',
-        confirmButtonText: 'Login'
+        icon: 'error',
+        confirmButtonText: 'Try Again',
+        confirmButtonColor: '#de2323',
       })
         .then((result) => {
           if (result.isConfirmed) {

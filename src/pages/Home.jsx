@@ -43,15 +43,15 @@ const Home = () => {
                   <div>
                     <h2 className="text-xl font-semibold">{item.title}</h2>
 
-                    <p className="text-gray-500 text-sm">Posted by:</p>
+                    <p className="text-gray-500 text-sm">Time: {item.currentDate} </p>
 
                   </div>
                 </div>
                 <p className="text-gray-600 p-4 mb-4">{item.article}</p>
                 <div className="flex justify-between items-center p-4 border-t">
-                  <button onClick={() => likeFunc(1 + like)} className="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-200">
+                  <Button variant='contained' onClick={() => likeFunc(1 + like)} className="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-200">
                     Like
-                  </button>
+                  </Button>
                   <span className="text-gray-500">Likes: 0</span>
                 </div>
               </div>
