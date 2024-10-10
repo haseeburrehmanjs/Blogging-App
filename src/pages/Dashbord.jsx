@@ -107,7 +107,7 @@ const Dashbord = () => {
           </Typography>
           <div className='mt-4 flex flex-col flex-wrap gap-3'>
             {blogs.length > 0 ? blogs.map((item, index) => (
-              <BlogsPost user={SingalUserData} key={index} blogs={item} />
+              <BlogsPost index={index} user={SingalUserData} key={index} blogs={item} />
             )) : <h1>No Blogs Found...</h1>}
           </div>
         </div>

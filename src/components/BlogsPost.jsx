@@ -1,8 +1,10 @@
+import { Button } from '@mui/material';
 import React, { useState } from 'react'
 
-const BlogsPost = ({ blogs, user}) => {
+const BlogsPost = ({ blogs, user, index}) => {
     const { title, article, currentDate } = blogs
     console.log(blogs);
+    console.log(index);
     
     // console.log(user);
     const { email, fullname, userProfile } = user
@@ -22,13 +24,11 @@ const BlogsPost = ({ blogs, user}) => {
 
                     </div>
                 </div>
-                <p className="text-gray-600 p-4 mb-4">{article}</p>
-                {/* <div className="flex justify-between items-center p-4 border-t">
-                    <button onClick={() => likeFunc(1 + like)} className="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-200">
-                        Like
-                    </button>
-                    <span className="text-gray-500">Likes: {like}</span>
-                </div> */}
+                <p className="text-gray-600 p-4 ">{article}</p>
+                <div className='p-4 mb-3 flex gap-5'>
+                    <Button onClick={() => deleteBlog(index)} variant='contained'>Edit</Button>
+                    <Button variant='contained' color='error'>Delete</Button>
+                </div>
             </div>
         </>
     )
