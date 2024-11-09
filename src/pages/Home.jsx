@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { onAuthStateChanged } from 'firebase/auth'
 import { auth, getAllData } from '../Config/firebase/FirebaseMethod'
 import { Button, CircularProgress, Typography } from '@mui/material'
 import Navbar from '../components/Navbar'
-import BlogsPost from '../components/BlogsPost'
 
 const Home = () => {
   const [allBlogs, setallBlogs] = useState([])
