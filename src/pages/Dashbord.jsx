@@ -6,7 +6,6 @@ import Navbar from '../components/Navbar'
 import { Button, CircularProgress, Typography } from '@mui/material'
 import BlogsPost from '../components/BlogsPost'
 import { collection, query, where, getDocs } from "firebase/firestore";
-import { data } from 'autoprefixer'
 import Swal from 'sweetalert2'
 
 const Dashbord = () => {

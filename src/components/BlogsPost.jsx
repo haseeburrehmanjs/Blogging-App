@@ -25,10 +25,10 @@ const BlogsPost = ({ blogs, user, index}) => {
                     </div>
                 </div>
                 <p className="text-gray-600 p-4 ">{article}</p>
-                <div className='p-4 mb-3 flex gap-5'>
+                {/* <div className='p-4 mb-3 flex gap-5'>
                     <Button onClick={() => deleteBlog(index)} variant='contained'>Edit</Button>
                     <Button variant='contained' color='error'>Delete</Button>
-                </div>
+                </div> */}
             </div>
         </>
     )
